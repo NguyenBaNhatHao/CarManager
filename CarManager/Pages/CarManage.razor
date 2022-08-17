@@ -1,0 +1,34 @@
+﻿@page "/carmanage"
+@using System.Data
+@using System.IO
+@using System.Text.Json
+@using System.Net.Http.Headers
+@using System.Linq
+@using Newtonsoft.Json
+@using CarManager.Models
+@inject IXeService _xeServices
+
+<PageTitle>Car Manage</PageTitle>
+
+<h3>Car Manage</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Mã xe</th>
+            <th>Tên xe</th>
+            <th>Biển số</th>
+            <th>Tải trọng</th>
+            <th>Mã tuyến đường</th>
+
+        </tr>
+    </thead>
+
+</table>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+
+        await _xeServices.GetXeDetail();
+    }
+}

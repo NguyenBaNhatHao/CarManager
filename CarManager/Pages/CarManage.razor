@@ -6,7 +6,7 @@
 @using System.Linq
 @using Newtonsoft.Json
 @using CarManager.Models
-@inject IXeService _xeServices
+
 
 <PageTitle>Car Manage</PageTitle>
 
@@ -26,9 +26,9 @@
 
 </table>
 @code {
-    protected override async Task OnInitializedAsync()
-    {
+    //protected override async Task OnInitializedAsync()
+    //{
 
-        await _xeServices.GetXeDetail();
-    }
+    //    await _xeServices.GetXeDetail();
+    //}
 }

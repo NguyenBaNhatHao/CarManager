@@ -19,7 +19,7 @@ namespace CarManager.Controllers
         public async Task<ActionResult<List<Xe>>> GetXeDetail()
         {
 
-            var resutl = await _context.tb_xe.ToListAsync();
+            var resutl = await _context.tb_Xe.ToListAsync();
             return Ok(resutl);
         }
     }

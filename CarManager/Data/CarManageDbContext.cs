@@ -8,7 +8,7 @@ namespace CarManager.Data
             : base(options)
         {
         }
-        public DbSet<Xe> tb_xe { get; set; }
+        public DbSet<Xe> tb_Xe { get; set; }
         public DbSet<TuyenDuong> tb_Tuyenduong { get; set; }
 
     }

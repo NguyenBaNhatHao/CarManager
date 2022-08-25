@@ -7,7 +7,7 @@ namespace CarManager.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int? TuyenDuongId { get; set; }
         public string? QuangDuong { get; set; }
-        public string? DiemBD { get; set; }
-        public string? DiemKT { get; set; }
+        public string? Nhaxe { get; set; }
+        public DateTime Thoigian { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarManager.Migrations
 {
     [DbContext(typeof(CarManageDbContext))]
-    [Migration("20220816083723_Initails")]
-    partial class Initails
+    [Migration("20220818085018_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

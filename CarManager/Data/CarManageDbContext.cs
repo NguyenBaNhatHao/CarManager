@@ -11,5 +11,6 @@ namespace CarManager.Data
         {
         }
         public DbSet<Xe> tb_xe { get; set; }
+        public DbSet<TuyenDuong> TuyenDuong { get; set; }
     }
 }

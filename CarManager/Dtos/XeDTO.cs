@@ -1,19 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel;
+using Newtonsoft.Json;
 
-namespace CarManager.Models
+
+namespace CarManager.Dtos
 {
-    public class Xe
+    public class XeDTO
     {
-        [Key]
         [Required]
         public int? Id { get; set; }
+        [Required]
         public string? XeId { get; set; }
         public string? TenXe { get; set; }
         public string? BienSo { get; set; }
         public string? TaiTrong { get; set; }
         public int? TuyenDuongId { get; set; }
-        public TuyenDuong TuyenDuong { get; set; }
+        public CarManager.Models.TuyenDuong TuyenDuong { get; set; }
     }
 }

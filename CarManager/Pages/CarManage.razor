@@ -6,29 +6,48 @@
 @using System.Linq
 @using Newtonsoft.Json
 @using CarManager.Models
-
+@inject IXeService _xeServices
+@inject NavigationManager NavigationManager
 
 <PageTitle>Car Manage</PageTitle>
 
 <h3>Car Manage</h3>
+<button class="btn btn-primary" @onclick="CreateAndEditXe">Add Xe</button>
+
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Mã xe</th>
             <th>Tên xe</th>
             <th>Biển số</th>
             <th>Tải trọng</th>
-            <th>Mã tuyến đường</th>
+            <th>tuyến đường</th>
 
         </tr>
     </thead>
+    <tbody>
+        @foreach(var xe in _xeServices.Xeservices)
+        {
+            <tr>
+                <td>@xe.XeId</td>
+                <td>@xe.TenXe</td>
+                <td>@xe.BienSo</td>
+                <td>@xe.TaiTrong</td> 
+                <td>@xe.TuyenDuong.QuangDuong</td> 
+            </tr>
+        }
+    </tbody>
+
 
 </table>
 @code {
-    //protected override async Task OnInitializedAsync()
-    //{
+    protected override async Task OnInitializedAsync()
+    {
 
-    //    await _xeServices.GetXeDetail();
-    //}
+        await _xeServices.GetXeDetail();
+    }
+        void CreateAndEditXe()
+    {
+        NavigationManager.NavigateTo("/xedetail");
+    }
 }

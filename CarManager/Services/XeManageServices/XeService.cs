@@ -22,10 +22,18 @@ namespace CarManager.Services.XeManageServices
                 Xeservices = result;
             }
         }
+
+
+
         private async Task SetXe(HttpResponseMessage result)
         {
             Console.WriteLine(result.StatusCode);
             _navigationManager.NavigateTo("CarManage");
+        }
+
+        public Task CreateXe(Xe xe)
+        {
+            throw new NotImplementedException();
         }
     }
 }

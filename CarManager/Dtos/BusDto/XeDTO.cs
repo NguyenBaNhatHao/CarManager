@@ -5,6 +5,7 @@ namespace CarManager.Dtos.BusDto
 {
     public class XeDTO
     {
+        public int? Id { get; set; }
         [Required]
         public string? XeId { get; set; }
         public string? TenXe { get; set; }

@@ -24,6 +24,7 @@ namespace CarManager.Controllers
                                 join tuyenduong in _context.tb_Tuyenduong on xe.TuyenDuongId equals tuyenduong.TuyenDuongId
                                 select new
                                 {
+                                    Id = xe.Id,
                                     XeId = xe.XeId,
                                     TenXe = xe.TenXe,
                                     Bienso = xe.BienSo,
@@ -35,6 +36,7 @@ namespace CarManager.Controllers
             foreach (var item in result)
             {
                 XeDTO bvdto = new XeDTO();
+                bvdto.Id = item.Id;
                 bvdto.XeId = item.XeId;
                 bvdto.TenXe = item.TenXe;
                 bvdto.BienSo = item.Bienso;

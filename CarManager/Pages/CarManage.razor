@@ -6,7 +6,10 @@
 @using System.Linq
 @using Newtonsoft.Json
 @using CarManager.Models
+@inject IXeService _xeService
+@inject NavigationManager NavigationManager
 <h3>CarManage</h3>
+<button class="btn btn-primary" @onclick="CreateAndEditXekhach">Add Xe</button>
 <table class="table">
     <thead>
         <tr>
@@ -16,15 +19,45 @@
             <th>Biển số</th>
             <th>Tải trọng</th>
             <th>Mã tuyến đường</th>
-
+            <th>Quãng đường</th>
+            <th>Nhà Xe</th>
+            <th>Thời gian</th>
         </tr>
     </thead>
+    <tbody>
+        @foreach (var xekhach in _xeService.Xeservices)
+        {
+            <tr>
+                <td>@xekhach.Id</td>
+                <td>@xekhach.XeId</td>
+                <td>@xekhach.TenXe</td>
+                <td>@xekhach.BienSo</td>
+                <td>@xekhach.TaiTrong</td>
+                <td>@xekhach.TuyenDuongId</td>
+                <td>@xekhach.TuyenDuong.QuangDuong</td>
+                <td>@xekhach.TuyenDuong.Nhaxe</td>
+                <td>@xekhach.TuyenDuong.Thoigian</td>
 
+            </tr>
+        }
+        @*@foreach(DataRow row in dataTable.Rows)
+        {
+        <tr>
+        @foreach(DataColumn col in dataTable.Columns)
+        {
+        <td>@row[col.ColumnName].ToString()</td>
+        }
+        </tr>
+        }*@
+    </tbody>
 </table>
 @code {
-    //protected override async Task OnInitializedAsync()
-    //{
-
-    //    await _xeServices.GetXeDetail();
-    //}
+    protected override async Task OnInitializedAsync()
+    {
+        await _xeService.GetXeDetail();
+    }
+    void CreateAndEditXekhach()
+    {
+        NavigationManager.NavigateTo("/xedetail");
+    }
 }

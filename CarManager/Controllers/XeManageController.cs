@@ -30,6 +30,7 @@ namespace CarManager.Controllers
                                     Bienso = xe.BienSo,
                                     Taitrong = xe.TaiTrong,
                                     TuyenduongId = xe.TuyenDuongId,
+                                    Carimage = xe.CarImage,
                                     TuyenDuong = xe.TuyenDuong
                                 }
                           ).ToListAsync();
@@ -42,14 +43,54 @@ namespace CarManager.Controllers
                 bvdto.BienSo = item.Bienso;
                 bvdto.TaiTrong = item.Taitrong;
                 bvdto.TuyenDuongId = item.TuyenduongId;
+                bvdto.CarImage = item.Carimage;
                 bvdto.tuyenDuong = item.TuyenDuong;
-                
+
                 BvDTOs.Add(bvdto);
             }
             if (BvDTOs != null)
                 return Ok(BvDTOs);
             else
                 return NotFound();
+        }
+        [HttpPost]
+        public async Task<ActionResult<List<Xe>>> CreateSinhVien(Xe xe)
+        {
+            _context.tb_Xe.Add(xe);
+            await _context.SaveChangesAsync();
+
+            return Ok(xe);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<Xe>>> DeleteXe(int id)
+        {
+            var dbXe = await _context.tb_Xe.FirstOrDefaultAsync(sh => sh.Id == id);
+            if (dbXe == null)
+                return NotFound("Sorry, but no student for you. :/");
+
+            _context.tb_Xe.Remove(dbXe);
+            await _context.SaveChangesAsync();
+
+            return Ok(dbXe);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<List<Xe>>> UpdateXe(Xe xe, int id)
+        {
+            var dbXe = await _context.tb_Xe
+                .FirstOrDefaultAsync(sh => sh.Id == id);
+            if (dbXe == null)
+                return NotFound("Sorry, but no hero for you. :/");
+            dbXe.XeId = xe.XeId;
+            dbXe.TenXe = xe.TenXe;
+            dbXe.BienSo = xe.BienSo;
+            dbXe.TaiTrong = xe.TaiTrong;
+            dbXe.CarImage = xe.CarImage;
+            dbXe.TuyenDuongId = xe.TuyenDuongId;
+            await _context.SaveChangesAsync();
+
+            return Ok(await GetXeDetail());
         }
     }
 }

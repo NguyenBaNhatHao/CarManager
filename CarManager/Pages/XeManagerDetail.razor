@@ -24,7 +24,13 @@
         <label for="tuyenduongid">Tuyen duong Id</label>
         <InputNumber id="tuyenduongid" @bind-Value="xekhach.TuyenDuongId" class="form-control" />
     </div>
+    <div>
+        <label for="carimage">Car Image</label>
+        <InputFile id="carimage" @bind-Value="xekhach.CarImage" class="form-control" />
+    </div>
+    <br/>
     <button type="submit" class="btn btn-primary">@btnText</button>
+
     <button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>
 </EditForm>
 @code {
@@ -41,10 +47,14 @@
         if (Id == null)
         {
             await XekhachServices.CreateXe(xekhach);
+        } else if (xekhach.CarImage == null){
+            await XekhachServices.CreateXe(xekhach);
         }
     }
     async Task Cancel()
     {
         NavigationManager.NavigateTo("/carmanage");
     }
+
+
 }

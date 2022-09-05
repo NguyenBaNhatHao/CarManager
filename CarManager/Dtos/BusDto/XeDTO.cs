@@ -12,6 +12,7 @@ namespace CarManager.Dtos.BusDto
         public string? BienSo { get; set; }
         public string? TaiTrong { get; set; }
         public int? TuyenDuongId { get; set; }
+        public string? CarImage { get; set; }
         public TuyenDuong? tuyenDuong { get; set; }
         
     }

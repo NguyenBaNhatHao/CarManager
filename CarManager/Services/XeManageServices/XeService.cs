@@ -35,5 +35,11 @@ namespace CarManager.Services.XeManageServices
         {
             throw new NotImplementedException();
         }
+
+        public async Task DeleteXe(int id)
+        {
+            var result = await _http.DeleteAsync($"api/XeManage/{id}");
+            await SetXe(result);
+        }
     }
 }

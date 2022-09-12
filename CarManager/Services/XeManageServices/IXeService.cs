@@ -6,6 +6,7 @@ namespace CarManager.Services.XeManageServices
     {
         List<Xe> Xeservices { get; set; }
         Task GetXeDetail();
+        Task<Xe> GetIdXe(int id);
         Task CreateXe(Xe xe);
         Task DeleteXe(int id);
     }

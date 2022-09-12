@@ -15,7 +15,6 @@
         <tr>
             <th>Id</th>
             <th>Mã xe</th>
-            <th>Hình</th>
             <th>Tên xe</th>
             <th>Biển số</th>
             <th>Tải trọng</th>
@@ -31,7 +30,6 @@
             <tr>
                 <td>@xekhach.Id</td>
                 <td>@xekhach.XeId</td>
-                <td>@xekhach.CarImage</td>
                 <td>@xekhach.TenXe</td>
                 <td>@xekhach.BienSo</td>
                 <td>@xekhach.TaiTrong</td>
@@ -39,7 +37,9 @@
                 <td>@xekhach.TuyenDuong.QuangDuong</td>
                 <td>@xekhach.TuyenDuong.Nhaxe</td>
                 <td>@xekhach.TuyenDuong.Thoigian</td>
-
+                <td>
+                    <button class="btn btn-primary" @onclick="(() => ShowXe(xekhach.Id))"><i class="oi oi-pencil"></i></button>
+                </td>
             </tr>
         }
         @*@foreach(DataRow row in dataTable.Rows)
@@ -58,8 +58,13 @@
     {
         await _xeService.GetXeDetail();
     }
+    
     void CreateAndEditXekhach()
     {
         NavigationManager.NavigateTo("/xedetail");
+    }
+    void ShowXe(int id)
+    {
+        NavigationManager.NavigateTo($"xedetail/{id}");
     }
 }

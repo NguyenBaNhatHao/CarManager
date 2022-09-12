@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarManager.Migrations
 {
     [DbContext(typeof(CarManageDbContext))]
-    [Migration("20220831024626_Initial")]
+    [Migration("20220909015022_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,7 @@ namespace CarManager.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CarImage")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaiTrong")

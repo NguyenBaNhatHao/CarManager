@@ -1,4 +1,5 @@
 ﻿@page "/xedetail"
+@page "/xedetail/{id:int}"
 @using CarManager.Models
 @inject IXeService XekhachServices
 @inject NavigationManager NavigationManager
@@ -24,14 +25,12 @@
         <label for="tuyenduongid">Tuyen duong Id</label>
         <InputNumber id="tuyenduongid" @bind-Value="xekhach.TuyenDuongId" class="form-control" />
     </div>
-    <div>
-        <label for="carimage">Car Image</label>
-        <InputFile id="carimage" @bind-Value="xekhach.CarImage" class="form-control" />
-    </div>
+    
     <br/>
     <button type="submit" class="btn btn-primary">@btnText</button>
 
-    <button type="button" class="btn btn-danger" @onclick="Cancel">Cancel</button>
+    <button type="button" class="btn btn-primary" @onclick="Cancel">Cancel</button>
+    <button type="button" class="btn btn-danger" @onclick="Delete">Delete</button>
 </EditForm>
 @code {
     [Parameter]
@@ -42,17 +41,27 @@
     {
         btnText = Id == null ? "Save" : "Update";
     }
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id != null)
+        {
+            xekhach = await XekhachServices.GetIdXe((int)Id);
+        }
+    }
     async Task HandleSubmit()
     {
         if (Id == null)
         {
             await XekhachServices.CreateXe(xekhach);
-        } else if (xekhach.CarImage == null){
-            await XekhachServices.CreateXe(xekhach);
         }
     }
     async Task Cancel()
     {
+        NavigationManager.NavigateTo("/carmanage");
+    }
+    async Task Delete()
+    {
+        await XekhachServices.DeleteXe(xekhach.Id);
         NavigationManager.NavigateTo("/carmanage");
     }
 

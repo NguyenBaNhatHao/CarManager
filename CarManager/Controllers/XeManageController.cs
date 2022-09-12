@@ -30,7 +30,6 @@ namespace CarManager.Controllers
                                     Bienso = xe.BienSo,
                                     Taitrong = xe.TaiTrong,
                                     TuyenduongId = xe.TuyenDuongId,
-                                    Carimage = xe.CarImage,
                                     TuyenDuong = xe.TuyenDuong
                                 }
                           ).ToListAsync();
@@ -43,7 +42,6 @@ namespace CarManager.Controllers
                 bvdto.BienSo = item.Bienso;
                 bvdto.TaiTrong = item.Taitrong;
                 bvdto.TuyenDuongId = item.TuyenduongId;
-                bvdto.CarImage = item.Carimage;
                 bvdto.tuyenDuong = item.TuyenDuong;
 
                 BvDTOs.Add(bvdto);
@@ -74,7 +72,16 @@ namespace CarManager.Controllers
 
             return Ok(dbXe);
         }
-
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<Xe>>> GetXeId(int id)
+        {
+            var xe = await _context.tb_Xe.FirstOrDefaultAsync(sh => sh.Id == id);
+            if(xe == null)
+            {
+                return NotFound("no bus here");
+            }
+            return Ok(xe);
+        }
         [HttpPut("{id}")]
         public async Task<ActionResult<List<Xe>>> UpdateXe(Xe xe, int id)
         {
@@ -86,11 +93,10 @@ namespace CarManager.Controllers
             dbXe.TenXe = xe.TenXe;
             dbXe.BienSo = xe.BienSo;
             dbXe.TaiTrong = xe.TaiTrong;
-            dbXe.CarImage = xe.CarImage;
             dbXe.TuyenDuongId = xe.TuyenDuongId;
             await _context.SaveChangesAsync();
 
-            return Ok(await GetXeDetail());
+            return Ok(xe);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace CarManager.Migrations
                     BienSo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TaiTrong = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TuyenDuongId = table.Column<int>(type: "int", nullable: true),
-                    CarImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CarImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

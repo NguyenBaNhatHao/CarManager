@@ -52,6 +52,10 @@ namespace CarManager.Migrations
                     b.Property<string>("BienSo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CarImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TaiTrong")
                         .HasColumnType("nvarchar(max)");
 

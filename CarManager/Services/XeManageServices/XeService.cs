@@ -2,6 +2,7 @@
 using CarManager.Models;
 using CarManager.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Json;
 
 namespace CarManager.Services.XeManageServices
 {
@@ -53,6 +54,12 @@ namespace CarManager.Services.XeManageServices
                 throw new Exception("not found bus");
             }
             return resutl;
+        }
+
+        public async Task UpdateXe(int? id, Xe xe)
+        {
+            var resutl = await _http.PutAsJsonAsync($"api/xemanage/{id}",xe);
+            await SetXe(resutl);
         }
     }
 }

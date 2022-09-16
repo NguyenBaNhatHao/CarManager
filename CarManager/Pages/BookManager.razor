@@ -1,0 +1,109 @@
+﻿@page "/booking"
+@using CarManager.Models
+@inject IXeService XekhachServices
+<style>
+    .width {
+        width: 100px;
+    }
+
+</style>
+<h3>BookManager</h3>
+
+<div style="align-content:center"  class="container">
+    <div>
+        <h3>Sơ đồ xe</h3>
+    </div>
+    <EditForm Model="xekhach" OnSubmit="HandleSubmit">
+        <InputSelect id="chonxe" @bind-Value="xekhach.Id" @onclick="SelectValuesXe" class="form-select">
+            <option value="0">-Chọn Xe-</option>
+            @foreach (var xekhach in XekhachServices.Xeservices)
+            {
+                <option value="@xekhach.Id">@xekhach.TenXe</option>
+            }
+        </InputSelect>
+    <br />
+    <div style="border:20px;">
+        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+
+            <input type="checkbox" class="btn-check " @bind="xekhach.GheId" value="1" id="A1" autocomplete="off">
+            <label class="btn btn-outline-primary width " for="A1">A1</label>
+
+                <input type="checkbox" class="btn-check" @bind="xekhach.GheId" value="2" id="A2" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A2">A2</label>
+
+                <input type="checkbox" class="btn-check" value="3" id="A3" autocomplete="off">
+            <label style="margin-left: 30px" class="btn btn-outline-primary width" for="A3"> A3</label>
+
+                <input type="checkbox" class="btn-check" value="4" id="A4" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A4"> A4</label>
+        </div>
+        <br/>
+        <br />
+        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                <input type="checkbox" class="btn-check" value="5" id="A5" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A5">A5</label>
+
+            <input type="checkbox" class="btn-check" value="6" id="A6" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A6">A6</label>
+
+            <input type="checkbox" class="btn-check" value="7" id="A7" autocomplete="off">
+            <label style="margin-left: 30px" class="btn btn-outline-primary width" for="A7"> A7</label>
+
+                <input type="checkbox" class="btn-check" value="8" id="A8" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A8"> A8</label>
+        </div>
+        <br />
+        <br />
+        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+            <input type="checkbox" class="btn-check" value="9" id="A9" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A9">A9</label>
+
+            <input type="checkbox" class="btn-check" value="10" id="A10" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A10">A10</label>
+
+            <input type="checkbox" class="btn-check" value="11" id="A11" autocomplete="off">
+            <label style="margin-left: 30px" class="btn btn-outline-primary width" for="A11"> A11</label>
+
+            <input type="checkbox" class="btn-check" value="12" id="A12" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A12"> A12</label>
+        </div>
+        <br />
+        <br />
+        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+            <input type="checkbox" class="btn-check" value="13" id="A13" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A13">A13</label>
+
+            <input type="checkbox" class="btn-check" value="14" id="A14" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A14">A14</label>
+
+                <input type="checkbox" class="btn-check" value="15" id="A15" autocomplete="off">
+            <label style="margin-left: 30px" class="btn btn-outline-primary width" for="A15"> A15</label>
+
+            <input type="checkbox" class="btn-check" value="16" id="A16" autocomplete="off">
+            <label class="btn btn-outline-primary width" for="A16"> A16</label>
+        </div>
+    </div>
+        <br />
+        <br />
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="submit" class="btn btn-primary">Xác nhận</button>
+        </div>
+    </EditForm>
+    
+</div>
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    Xe xekhach = new Xe();
+    private async Task SelectValuesXe()
+    {
+        await XekhachServices.GetXeDetail();
+        
+    }
+    async Task HandleSubmit()
+    {
+        if(Id != null){
+            await XekhachServices.UpdateXe(Id, xekhach);
+        }
+    }
+}

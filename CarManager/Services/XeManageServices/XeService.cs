@@ -3,6 +3,7 @@ using CarManager.Models;
 using CarManager.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Json;
+using CarManager.Dtos.BusDto;
 
 namespace CarManager.Services.XeManageServices
 {
@@ -10,7 +11,7 @@ namespace CarManager.Services.XeManageServices
     {
         public readonly HttpClient _http;
         private readonly NavigationManager _navigationManager;
-        public List<Xe> Xeservices { get; set; } = new List<Xe>();
+        public List<XeReadDTO> Xeservices { get; set; } = new List<XeReadDTO>();
         public XeService(HttpClient http, NavigationManager navigationManager)
         {
             _http = http;
@@ -19,15 +20,12 @@ namespace CarManager.Services.XeManageServices
         }
         public async Task GetXeDetail()
         {
-            var result = await _http.GetFromJsonAsync<List<Xe>>("api/xemanage");
+            var result = await _http.GetFromJsonAsync<List<XeReadDTO>>("api/xemanage");
             if (result != null)
             {
                 Xeservices = result;
             }
         }
-
-
-
         private async Task SetXe(HttpResponseMessage result)
         {
             Console.WriteLine(result.StatusCode);

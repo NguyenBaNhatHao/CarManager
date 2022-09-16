@@ -5,6 +5,9 @@ using CarManager.Models;
 using CarManager.Dtos.BusDto;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Specialized;
+using System.Text;
+
 namespace CarManager.Controllers
 {
     [Route("api/[controller]")]
@@ -19,37 +22,42 @@ namespace CarManager.Controllers
         [HttpGet]
         public async Task<ActionResult<List<XeDTO>>> GetXeDetail()
         {
-            List<XeDTO> BvDTOs = new List<XeDTO>();
-            var result = await (from xe in _context.tb_Xe
-                                join tuyenduong in _context.tb_Tuyenduong on xe.TuyenDuongId equals tuyenduong.TuyenDuongId
-                                select new
-                                {
-                                    Id = xe.Id,
-                                    XeId = xe.XeId,
-                                    TenXe = xe.TenXe,
-                                    Bienso = xe.BienSo,
-                                    Taitrong = xe.TaiTrong,
-                                    TuyenduongId = xe.TuyenDuongId,
-                                    TuyenDuong = xe.TuyenDuong
-                                }
-                          ).ToListAsync();
-            foreach (var item in result)
+            List<String> ListData = new List<String>();
+            try
             {
-                XeDTO bvdto = new XeDTO();
-                bvdto.Id = item.Id;
-                bvdto.XeId = item.XeId;
-                bvdto.TenXe = item.TenXe;
-                bvdto.BienSo = item.Bienso;
-                bvdto.TaiTrong = item.Taitrong;
-                bvdto.TuyenDuongId = item.TuyenduongId;
-                bvdto.tuyenDuong = item.TuyenDuong;
-
-                BvDTOs.Add(bvdto);
+                var jsonResult = new StringBuilder();
+                var data = new StringBuilder();
+                var ListDiemdanh = new List<OrderedDictionary>();
+                using (var cmd = _context.Database.GetDbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "sp_api_GetCarManager";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    if (cmd.Connection.State != System.Data.ConnectionState.Open) cmd.Connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var dictionary = new OrderedDictionary();
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            if (reader[i] == DBNull.Value)
+                            {
+                                dictionary.Add(reader.GetName(i), "0");
+                            }
+                            else
+                            {
+                                dictionary.Add(reader.GetName(i), reader[i].ToString());
+                            }
+                        }
+                        ListDiemdanh.Add(dictionary);
+                    }
+                    return Ok(ListDiemdanh);
+                }
             }
-            if (BvDTOs != null)
-                return Ok(BvDTOs);
-            else
-                return NotFound();
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPost]
         public async Task<ActionResult<List<Xe>>> CreateSinhVien(Xe xe)
@@ -93,6 +101,8 @@ namespace CarManager.Controllers
             dbXe.TenXe = xe.TenXe;
             dbXe.BienSo = xe.BienSo;
             dbXe.TaiTrong = xe.TaiTrong;
+            dbXe.HangHoa = xe.HangHoa;
+            dbXe.GheId = xe.GheId;
             dbXe.TuyenDuongId = xe.TuyenDuongId;
             await _context.SaveChangesAsync();
 

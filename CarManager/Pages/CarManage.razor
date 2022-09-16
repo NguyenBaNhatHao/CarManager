@@ -13,30 +13,28 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Mã xe</th>
             <th>Tên xe</th>
             <th>Biển số</th>
             <th>Tải trọng</th>
-            <th>Mã tuyến đường</th>
-            <th>Quãng đường</th>
+            <th>Hàng hóa</th>
             <th>Nhà Xe</th>
-            <th>Thời gian</th>
+            <th>Quãng đường</th>
+            <th>Số ghế</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var xekhach in _xeService.Xeservices)
         {
             <tr>
-                <td>@xekhach.Id</td>
                 <td>@xekhach.XeId</td>
                 <td>@xekhach.TenXe</td>
                 <td>@xekhach.BienSo</td>
                 <td>@xekhach.TaiTrong</td>
-                <td>@xekhach.TuyenDuongId</td>
-                <td>@xekhach.TuyenDuong.QuangDuong</td>
-                <td>@xekhach.TuyenDuong.Nhaxe</td>
-                <td>@xekhach.TuyenDuong.Thoigian</td>
+                <td>@xekhach.HangHoa</td>
+                <td>@xekhach.NhaXe</td>
+                <td>@xekhach.QuangDuong</td>
+                <td>@xekhach.SoGhe</td>
                 <td>
                     <button class="btn btn-primary" @onclick="(() => ShowXe(xekhach.Id))"><i class="oi oi-pencil"></i></button>
                 </td>

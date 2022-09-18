@@ -108,5 +108,11 @@ namespace CarManager.Controllers
 
             return Ok(xe);
         }
+        [HttpGet("ghe")]
+        public async Task<ActionResult> DetailGhe()
+        {
+            var resutl = await _context.tb_Ghe.ToListAsync();
+            return Ok(resutl);
+        }
     }
 }

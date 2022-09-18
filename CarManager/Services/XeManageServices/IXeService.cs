@@ -12,6 +12,6 @@ namespace CarManager.Services.XeManageServices
         Task UpdateXe(int? id, Xe xe);
         Task CreateXe(Xe xe);
         Task DeleteXe(int id);
-        
+        Task GetGheDetail();
     }
 }

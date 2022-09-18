@@ -59,5 +59,10 @@ namespace CarManager.Services.XeManageServices
             var resutl = await _http.PutAsJsonAsync($"api/xemanage/{id}",xe);
             await SetXe(resutl);
         }
+
+        public Task GetGheDetail()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -91,7 +91,7 @@ namespace CarManager.Controllers
             return Ok(xe);
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult<List<Xe>>> UpdateXe(Xe xe, int id)
+        public async Task<ActionResult<List<Xe>>> UpdateXe([FromBody]Xe xe, int id)
         {
             var dbXe = await _context.tb_Xe
                 .FirstOrDefaultAsync(sh => sh.Id == id);
@@ -104,6 +104,19 @@ namespace CarManager.Controllers
             dbXe.HangHoa = xe.HangHoa;
             dbXe.GheId = xe.GheId;
             dbXe.TuyenDuongId = xe.TuyenDuongId;
+            await _context.SaveChangesAsync();
+
+            return Ok(xe);
+        }
+        [HttpPut("ghe/{id}")]
+        public async Task<ActionResult<List<Xe>>> UpdateGhe([FromBody] Xe xe, int id)
+        {
+            var dbXe = await _context.tb_Xe
+                .FirstOrDefaultAsync(sh => sh.Id == id);
+            if (dbXe == null)
+                return NotFound("Sorry, but no hero for you. :/");
+           
+            dbXe.GheId = xe.GheId;
             await _context.SaveChangesAsync();
 
             return Ok(xe);

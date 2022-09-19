@@ -12,6 +12,8 @@ namespace CarManager.Services.XeManageServices
         public readonly HttpClient _http;
         private readonly NavigationManager _navigationManager;
         public List<XeReadDTO> Xeservices { get; set; } = new List<XeReadDTO>();
+        public List<GheDTO> Gheservices { get; set; } = new List<GheDTO>();
+
         public XeService(HttpClient http, NavigationManager navigationManager)
         {
             _http = http;
@@ -60,9 +62,19 @@ namespace CarManager.Services.XeManageServices
             await SetXe(resutl);
         }
 
-        public Task GetGheDetail()
+        public async Task GetGheDetail()
         {
-            throw new NotImplementedException();
+            var result = await _http.GetFromJsonAsync<List<GheDTO>>("api/xemanage/ghe");
+            if (result != null)
+            {
+                Gheservices = result;
+            }
+        }
+
+        public async Task UpdateGhe(int? id, Xe xe)
+        {
+            var resutl = await _http.PutAsJsonAsync($"api/xemanage/ghe/{id}", xe);
+            await SetXe(resutl);
         }
     }
 }

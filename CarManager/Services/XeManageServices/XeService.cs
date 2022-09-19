@@ -13,6 +13,8 @@ namespace CarManager.Services.XeManageServices
         private readonly NavigationManager _navigationManager;
         public List<XeReadDTO> Xeservices { get; set; } = new List<XeReadDTO>();
         public List<GheDTO> Gheservices { get; set; } = new List<GheDTO>();
+        public List<CheckGheDTO> CheckGheservices { get; set; } = new List<CheckGheDTO>();
+        public List<CheckGheDTO> UnCheckGheservices { get; set; } = new List<CheckGheDTO>();
 
         public XeService(HttpClient http, NavigationManager navigationManager)
         {
@@ -75,6 +77,23 @@ namespace CarManager.Services.XeManageServices
         {
             var resutl = await _http.PutAsJsonAsync($"api/xemanage/ghe/{id}", xe);
             await SetXe(resutl);
+        }
+
+        public async Task CheckGhe()
+        {
+            var result = await _http.GetFromJsonAsync<List<CheckGheDTO>>("api/xemanage/checkghe");
+            if (result != null)
+            {
+                CheckGheservices = result;
+            }
+        }
+        public async Task UncheckGhe()
+        {
+            var result = await _http.GetFromJsonAsync<List<CheckGheDTO>>("api/xemanage/uncheckghe");
+            if (result != null)
+            {
+                UnCheckGheservices = result;
+            }
         }
     }
 }

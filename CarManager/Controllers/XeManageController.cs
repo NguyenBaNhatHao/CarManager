@@ -127,5 +127,85 @@ namespace CarManager.Controllers
             var resutl = await _context.tb_Ghe.ToListAsync();
             return Ok(resutl);
         }
+        [HttpGet("checkghe")]
+        public async Task<ActionResult> CheckGhe()
+        {
+            List<String> ListData = new List<String>();
+            try
+            {
+                var jsonResult = new StringBuilder();
+                var data = new StringBuilder();
+                var ListDiemdanh = new List<OrderedDictionary>();
+                using (var cmd = _context.Database.GetDbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "sp_api_CheckGhe";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    if (cmd.Connection.State != System.Data.ConnectionState.Open) cmd.Connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var dictionary = new OrderedDictionary();
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            if (reader[i] == DBNull.Value)
+                            {
+                                dictionary.Add(reader.GetName(i), "0");
+                            }
+                            else
+                            {
+                                dictionary.Add(reader.GetName(i), reader[i].ToString());
+                            }
+                        }
+                        ListDiemdanh.Add(dictionary);
+                    }
+                    return Ok(ListDiemdanh);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("uncheckghe")]
+        public async Task<ActionResult> UnCheckGhe()
+        {
+            List<String> ListData = new List<String>();
+            try
+            {
+                var jsonResult = new StringBuilder();
+                var data = new StringBuilder();
+                var ListDiemdanh = new List<OrderedDictionary>();
+                using (var cmd = _context.Database.GetDbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "sp_api_CheckUnableGhe";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    if (cmd.Connection.State != System.Data.ConnectionState.Open) cmd.Connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var dictionary = new OrderedDictionary();
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            if (reader[i] == DBNull.Value)
+                            {
+                                dictionary.Add(reader.GetName(i), "0");
+                            }
+                            else
+                            {
+                                dictionary.Add(reader.GetName(i), reader[i].ToString());
+                            }
+                        }
+                        ListDiemdanh.Add(dictionary);
+                    }
+                    return Ok(ListDiemdanh);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

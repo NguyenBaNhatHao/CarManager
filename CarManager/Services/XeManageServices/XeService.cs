@@ -15,6 +15,7 @@ namespace CarManager.Services.XeManageServices
         public List<GheDTO> Gheservices { get; set; } = new List<GheDTO>();
         public List<CheckGheDTO> CheckGheservices { get; set; } = new List<CheckGheDTO>();
         public List<CheckGheDTO> UnCheckGheservices { get; set; } = new List<CheckGheDTO>();
+        public List<BieudoDTO> BieuDoservices { get; set; } = new List<BieudoDTO>();
 
         public XeService(HttpClient http, NavigationManager navigationManager)
         {
@@ -95,5 +96,15 @@ namespace CarManager.Services.XeManageServices
                 UnCheckGheservices = result;
             }
         }
+
+        public async Task bieudo()
+        {
+            var result = await _http.GetFromJsonAsync<List<BieudoDTO>>("api/xemanage/bieudo");
+            if (result != null)
+            {
+                BieuDoservices = result;
+            }
+        }
+
     }
 }

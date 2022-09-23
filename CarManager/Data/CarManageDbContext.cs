@@ -1,4 +1,5 @@
-﻿using CarManager.Models;
+﻿using CarManager.Dtos.BusDto;
+using CarManager.Models;
 using Microsoft.EntityFrameworkCore;
 namespace CarManager.Data
 {
@@ -13,4 +14,5 @@ namespace CarManager.Data
         public DbSet<Ghe> tb_Ghe { get; set; }
 
     }
+  
 }

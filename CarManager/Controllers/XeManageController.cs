@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Specialized;
 using System.Text;
+using Microsoft.Data.SqlClient;
 
 namespace CarManager.Controllers
 {
@@ -221,6 +222,48 @@ namespace CarManager.Controllers
                     cmd.CommandText = "sp_api_Bieudo";
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     if (cmd.Connection.State != System.Data.ConnectionState.Open) cmd.Connection.Open();
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var dictionary = new OrderedDictionary();
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            if (reader[i] == DBNull.Value)
+                            {
+                                dictionary.Add(reader.GetName(i), "0");
+                            }
+                            else
+                            {
+                                dictionary.Add(reader.GetName(i), reader[i].ToString());
+                            }
+                        }
+                        ListDiemdanh.Add(dictionary);
+                    }
+                    return Ok(ListDiemdanh);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("search/{Tenxe}")]
+        public async Task<ActionResult> Search(string Tenxe)
+        {
+            var tenxe = new SqlParameter("@Tenxe", Tenxe);
+            List<String> ListData = new List<String>();
+            try
+            {
+                var jsonResult = new StringBuilder();
+                var data = new StringBuilder();
+                var ListDiemdanh = new List<OrderedDictionary>();
+                using (var cmd = _context.Database.GetDbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "sp_api_tenxe";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    if (cmd.Connection.State != System.Data.ConnectionState.Open) cmd.Connection.Open();
+                    cmd.Parameters.Add(tenxe);
                     var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {

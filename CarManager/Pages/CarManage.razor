@@ -9,7 +9,17 @@
 @inject IXeService _xeService
 @inject NavigationManager NavigationManager
 <h3>CarManage</h3>
-<button class="btn btn-primary" @onclick="CreateAndEditXekhach">Add Xe</button>
+<div>
+    <div>
+        <input type="text" placeholder="Nhập tên" @bind-value="searchTerm">
+        <button type="submit" @onclick="(() => SearchTerm())" >Search</button>
+    </div>
+    <br />
+    <div>
+        <button class="btn btn-primary" @onclick="CreateAndEditXekhach">Add Xe</button>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -52,11 +62,13 @@
     </tbody>
 </table>
 @code {
+    private string searchTerm;
+
     protected override async Task OnInitializedAsync()
     {
         await _xeService.GetXeDetail();
     }
-    
+
     void CreateAndEditXekhach()
     {
         NavigationManager.NavigateTo("/xedetail");
@@ -65,4 +77,20 @@
     {
         NavigationManager.NavigateTo($"xedetail/{id}");
     }
+    async void SearchTerm()
+    {
+        await _xeService.Search(searchTerm);
+
+    }
+    //async void KeySearch(KeyboardEventArgs ev)
+    //{
+    //    if (ev.Key == "Enter")
+    //    {
+    //        foreach (var item in _xeService.Xeservices)
+    //        {
+    //            searchTerm = item.TenXe;
+    //            SearchTerm();
+    //        }
+    //    }
+    //}
 }

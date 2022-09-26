@@ -16,6 +16,7 @@ namespace CarManager.Services.XeManageServices
         public List<CheckGheDTO> CheckGheservices { get; set; } = new List<CheckGheDTO>();
         public List<CheckGheDTO> UnCheckGheservices { get; set; } = new List<CheckGheDTO>();
         public List<BieudoDTO> BieuDoservices { get; set; } = new List<BieudoDTO>();
+        public List<SearchXeDTO> SearchXeservices { get; set; } = new List<SearchXeDTO>();
 
         public XeService(HttpClient http, NavigationManager navigationManager)
         {
@@ -106,5 +107,13 @@ namespace CarManager.Services.XeManageServices
             }
         }
 
+        public async Task Search(string Tenxe)
+        {
+            var result = await _http.GetFromJsonAsync<List<XeReadDTO>>($"api/xemanage/search/{Tenxe}");
+            if (result != null)
+            {
+                Xeservices = result;
+            }
+        }
     }
 }

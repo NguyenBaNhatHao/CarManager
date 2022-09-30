@@ -8,6 +8,7 @@
 @using ChartJs.Blazor.Util
 @using Newtonsoft.Json
 @using CarManager.Models
+@using CarManager.Dtos.BusDto
 @using ChartJs.Blazor.PieChart
 @using ChartJs.Blazor.BarChart
 @inject IXeService XekhachServices
@@ -16,19 +17,30 @@
     <Chart Config="_pieConfig"></Chart>
 </div>
 <br />
-<div>
-    <Chart Config="_barConfig"></Chart>
-</div>
+@if (XekhachServices.BieuDoservices.Count > 0)
+{
+    <div>
+        <Chart Config="_barConfig"></Chart>
+    </div>
+}
+
+<button class="btn btn-primary" @onclick="(() => Bieudo())"><i class="oi oi-pencil">Generget</i></button>
 
 
 
 @code {
-    Xe xekhach = new Xe();
+    Xe xe = new Xe();
+    List<BieudoDTO> BieudodataXe = new List<BieudoDTO>();
+    BieudoDTO data = new BieudoDTO();
     private PieConfig _pieConfig;
     private BarConfig _barConfig;
     protected override void OnInitialized()
     {
         ConfigurePieConfig();
+        //ConfigureBarConfig();
+    }
+    async void Bieudo(){
+        await XekhachServices.bieudo();
         ConfigureBarConfig();
     }
     private void ConfigurePieConfig()
@@ -58,9 +70,10 @@
             };
         _pieConfig.Data.Datasets.Add(dataset);
     }
-    
+
     private void ConfigureBarConfig()
     {
+        var totalData = new BarDataset<int>();
         _barConfig = new BarConfig();
         _barConfig.Options = new BarOptions
             {
@@ -71,22 +84,28 @@
                     Text = "Biểu đồ xe"
                 }
             };
-        foreach (var xekhach in new[] { "test1", "test2", "test3", "test4", "test5", "test6" })
+        foreach (var xekhach in XekhachServices.BieuDoservices)
         {
-            _barConfig.Data.Labels.Add(xekhach);
-        }
-        var dataset = new BarDataset<int>(new[] { 30, 50, 60, 70, 65, 40 })
-            {
-                BackgroundColor = new[]
-                    {
-                ColorUtil.ColorHexString(255,0,0),
-                ColorUtil.ColorHexString(0,255,0),
-                ColorUtil.ColorHexString(0,0,255),
-                ColorUtil.ColorHexString(255,0,0),
-                ColorUtil.ColorHexString(0,255,0),
-                ColorUtil.ColorHexString(0,0,255)
+            _barConfig.Data.Labels.Add(xekhach.TenXe);
+            
+            var dataset = new BarDataset<int>(new[] { xekhach.TaiTrong.Value })
+                {
+                    BackgroundColor = new[]
+                                {
+            ColorUtil.ColorHexString(255,0,0),
+            ColorUtil.ColorHexString(0,255,0),
+            ColorUtil.ColorHexString(0,0,255),
+            ColorUtil.ColorHexString(255,0,0),
+            ColorUtil.ColorHexString(0,255,0),
+            ColorUtil.ColorHexString(0,0,255)
             }
-            };
-        _barConfig.Data.Datasets.Add(dataset);
+                };
+
+            totalData= dataset;
+
+            
+        }
+        _barConfig.Data.Datasets.Add(totalData);
+        
     }
 }

@@ -84,27 +84,35 @@
                     Text = "Biểu đồ xe"
                 }
             };
+
         foreach (var xekhach in XekhachServices.BieuDoservices)
         {
             _barConfig.Data.Labels.Add(xekhach.TenXe);
-            
-            var dataset = new BarDataset<int>(new[] { xekhach.TaiTrong.Value })
+
+            var dataset = new BarDataset<int>
                 {
+                    Label = xekhach.TenXe,
                     BackgroundColor = new[]
-                                {
-            ColorUtil.ColorHexString(255,0,0),
-            ColorUtil.ColorHexString(0,255,0),
-            ColorUtil.ColorHexString(0,0,255),
-            ColorUtil.ColorHexString(255,0,0),
-            ColorUtil.ColorHexString(0,255,0),
-            ColorUtil.ColorHexString(0,0,255)
-            }
-                };
-
-            totalData= dataset;
+                                        {
+                        ColorUtil.ColorHexString(255, 0, 0),
+                        ColorUtil.ColorHexString(0, 255, 0),
+                        ColorUtil.ColorHexString(0, 0, 255),
+                        ColorUtil.ColorHexString(255, 0, 0),
+                        ColorUtil.ColorHexString(0, 255, 0),
+                        ColorUtil.ColorHexString(0, 0, 255)
+                    },
+                   
+        };
 
             
+            for (var i = 0; i < XekhachServices.BieuDoservices.Count; i++)
+            {
+                dataset.Add(XekhachServices.BieuDoservices[i].TaiTrong);
+
+            }
+            totalData = dataset;
         }
+        
         _barConfig.Data.Datasets.Add(totalData);
         
     }
